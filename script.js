@@ -120,12 +120,62 @@ window.addEventListener('scroll', () => {
 /* ========================================================
    CONTACT FORM
    ======================================================== */
-function handleSubmit(e) {
-  e.preventDefault();
-  const success = document.getElementById('formSuccess');
-  success.style.display = 'flex';
-  document.getElementById('contactForm').reset();
-  setTimeout(() => { success.style.display = 'none'; }, 6000);
+const contactForm = document.getElementById('contactForm');
+const formSuccess = document.getElementById('formSuccess');
+const formError = document.getElementById('formError');
+const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+
+if (contactForm && formSuccess && formError && contactSubmitBtn) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    formError.style.display = 'none';
+    formSuccess.style.display = 'none';
+
+    const spamTrap = contactForm.querySelector('input[name="website"]');
+    if (spamTrap && spamTrap.value.trim() !== '') {
+      return;
+    }
+
+    const selectedService = contactForm.querySelector('select[name="service"]');
+    const selectedBudget = contactForm.querySelector('select[name="budget"]');
+
+    if (!selectedService || !selectedService.value || !selectedBudget || !selectedBudget.value) {
+      formError.innerHTML = '<i class="fas fa-circle-exclamation"></i> Please select both service and budget range before sending.';
+      formError.style.display = 'flex';
+      return;
+    }
+
+    const originalContent = contactSubmitBtn.innerHTML;
+    contactSubmitBtn.disabled = true;
+    contactSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/r.k.chopra5000@gmail.com', {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Submission failed');
+      }
+
+      formSuccess.innerHTML = '<i class="fas fa-check-circle"></i> Message received! I\'ll respond within 24 hours.';
+      formSuccess.style.display = 'flex';
+      contactForm.reset();
+      window.location.hash = 'thank-you';
+    } catch (error) {
+      formSuccess.innerHTML = '<i class="fas fa-circle-exclamation"></i> Could not send message right now. Please email me directly at r.k.chopra5000@gmail.com.';
+      formSuccess.style.display = 'flex';
+    } finally {
+      contactSubmitBtn.disabled = false;
+      contactSubmitBtn.innerHTML = originalContent;
+      setTimeout(() => { formSuccess.style.display = 'none'; }, 6000);
+    }
+  });
 }
 
 /* ========================================================

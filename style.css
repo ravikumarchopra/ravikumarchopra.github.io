@@ -484,6 +484,13 @@ ul { list-style: none; }
 .ab-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; flex-shrink: 0; }
 .availability-badge strong { color: var(--green); }
 .contact-form { display: flex; flex-direction: column; gap: 18px; }
+.cf-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .cf-group { display: flex; flex-direction: column; gap: 7px; }
 .cf-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
@@ -507,6 +514,41 @@ ul { list-style: none; }
   border-radius: var(--radius-sm); color: var(--green); font-size: 0.9rem;
 }
 .form-success i { font-size: 1.1rem; }
+.form-error {
+  display: none; align-items: center; gap: 10px; padding: 14px 20px;
+  background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.35);
+  border-radius: var(--radius-sm); color: var(--accent); font-size: 0.9rem;
+}
+.form-error i { font-size: 1.1rem; }
+
+#thank-you {
+  display: none;
+  padding-top: 0;
+}
+
+#thank-you:target {
+  display: block;
+}
+
+.thank-you-card {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 42px 28px;
+}
+
+.thank-you-card h3 {
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+}
+
+.thank-you-card p {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
 
 /* ============================================================
    FOOTER
