@@ -151,7 +151,7 @@ if (contactForm && formSuccess && formError && contactSubmitBtn) {
     contactSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/r.k.chopra5000@gmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/c8bb7b826c2b2fb29bff4d3c06296e3e', {
         method: 'POST',
         body: new FormData(contactForm),
         headers: {
