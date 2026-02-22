@@ -163,17 +163,29 @@ if (contactForm && formSuccess && formError && contactSubmitBtn) {
         throw new Error('Submission failed');
       }
 
+      const result = await response.json();
+      const isSuccess = result && (result.success === true || result.success === 'true');
+
+      if (!isSuccess) {
+        const activationMessage = 'Form is not activated yet. Please open the activation email from FormSubmit in r.k.chopra5000@gmail.com and click Activate Form.';
+        const serviceMessage = result && result.message ? result.message : activationMessage;
+        throw new Error(serviceMessage);
+      }
+
       formSuccess.innerHTML = '<i class="fas fa-check-circle"></i> Message received! I\'ll respond within 24 hours.';
       formSuccess.style.display = 'flex';
       contactForm.reset();
       window.location.hash = 'thank-you';
     } catch (error) {
-      formSuccess.innerHTML = '<i class="fas fa-circle-exclamation"></i> Could not send message right now. Please email me directly at r.k.chopra5000@gmail.com.';
-      formSuccess.style.display = 'flex';
+      formError.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${error.message || 'Could not send message right now. Please email me directly at r.k.chopra5000@gmail.com.'}`;
+      formError.style.display = 'flex';
     } finally {
       contactSubmitBtn.disabled = false;
       contactSubmitBtn.innerHTML = originalContent;
-      setTimeout(() => { formSuccess.style.display = 'none'; }, 6000);
+      setTimeout(() => {
+        formSuccess.style.display = 'none';
+        formError.style.display = 'none';
+      }, 8000);
     }
   });
 }
